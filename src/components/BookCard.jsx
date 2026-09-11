@@ -1,5 +1,5 @@
-// Componente que recebe um objeto 'book' via props
-export default function BookCard({ book }) {
+// Recebe 'book' e 'onReserve'
+export default function BookCard({ book, onReserve }) {
   return (
     <article className="book-card">
       <div>
@@ -7,10 +7,17 @@ export default function BookCard({ book }) {
         <p>{book.author}</p>
       </div>
       
-      {/* Lógica da etiqueta: usa a propriedade 'available' do livro para definir a classe e o texto */}
-      <span className={`badge ${book.available ? "badge-ok" : "badge-off"}`}>
-        {book.available ? "Disponível" : "Reservado"}
-      </span>
+      {/* Agrupamos a etiqueta e o botão para ficarem alinhados */}
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <span className={`badge ${book.available ? "badge-ok" : "badge-off"}`}>
+          {book.available ? "Disponível" : "Reservado"}
+        </span>
+        
+        {/* O botão que dispara o callback */}
+        <button onClick={() => onReserve(book.id)}>
+          Reservar
+        </button>
+      </div>
     </article>
   );
 }
