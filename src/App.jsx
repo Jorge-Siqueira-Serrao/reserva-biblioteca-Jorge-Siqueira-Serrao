@@ -1,16 +1,28 @@
-// src/App.jsx
+import { useState } from "react"; // Importa o useState
 import "./App.css";
-// 1. Importa os dados dos livros
-import { books } from "./data/books";
+// 1. Importa os dados dos livros (renomeando para initialBooks para não conflitar com o nome do estado)
+import { books as initialBooks } from "./data/books";
 // 2. Importa o componente que renderiza a lista
 import BookList from "./components/BookList";
-import Panel from "./components/Panel"; // Importa o novo componente
+import Panel from "./components/Panel";
 
 export default function App() {
-  // Função de verdade (temporária por enquanto)
+  // No App, guarde a lista de livros em estado com useState
+  const [books, setBooks] = useState(initialBooks);
+
+  // Troque o alerta por uma função que alterna o campo available do livro clicado
   function handleReserve(bookId) {
-    window.alert(`Livro ${bookId} — ação ainda não implementada`);
+    // A atualização precisa ser imutável — nada de book.available = true nem push
+    // Usamos o .map para criar um NOVO array, e o spread operator (...) para criar um NOVO objeto
+    setBooks((prevBooks) =>
+      prevBooks.map((book) =>
+        book.id === bookId ? { ...book, available: !book.available } : book
+      )
+    );
   }
+
+  // O contador precisa ser calculado, não guardado em outro estado
+  const availableCount = books.filter((book) => book.available).length;
 
   return (
     <main className="app">
@@ -18,6 +30,11 @@ export default function App() {
         <p className="eyebrow">BIBLIOTECA ITEAM</p>
         <h1>Reserva de livros do acervo.</h1>
         <p>Consulte a disponibilidade e reserve o que precisar.</p>
+        
+        {/* No topo da página, mostre um contador */}
+        <p style={{ marginTop: "12px", fontWeight: "bold", color: "var(--azul)" }}>
+          {availableCount} de {books.length} livros disponíveis
+        </p>
       </header>
 
       {/* Envolvemos a lista com o Panel, dando um título a ela */}

@@ -7,15 +7,15 @@ export default function BookCard({ book, onReserve }) {
         <p>{book.author}</p>
       </div>
       
-      {/* Agrupamos a etiqueta e o botão para ficarem alinhados */}
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        {/* Lógica da etiqueta: usa a propriedade 'available' do livro para definir a classe e o texto */}
         <span className={`badge ${book.available ? "badge-ok" : "badge-off"}`}>
           {book.available ? "Disponível" : "Reservado"}
         </span>
         
-        {/* O botão que dispara o callback */}
+        {/* O texto do botão muda conforme a situação: Reservar quando disponível, Devolver quando reservado */}
         <button onClick={() => onReserve(book.id)}>
-          Reservar
+          {book.available ? "Reservar" : "Devolver"}
         </button>
       </div>
     </article>
