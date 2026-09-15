@@ -1,4 +1,5 @@
-import { useState } from "react"; // Importa o useState
+// src/App.jsx
+import { useState, useEffect } from "react"; // Importa o useState e useEffect
 import "./App.css";
 // 1. Importa os dados dos livros (renomeando para initialBooks para não conflitar com o nome do estado)
 import { books as initialBooks } from "./data/books";
@@ -7,9 +8,34 @@ import BookList from "./components/BookList";
 import Panel from "./components/Panel";
 import BookForm from "./components/BookForm"; // Importa o novo formulário
 
+// ETAPA 6: Constante com a chave do armazenamento
+const STORAGE_KEY = "reserva-biblioteca:books";
+
+// ETAPA 6: Função para carregar os livros do localStorage
+function loadBooks() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    // Se não houver nada, devolve o array books importado
+    if (!stored) return initialBooks;
+    
+    const parsed = JSON.parse(stored);
+    // Confirma que é um array, senão devolve o padrão
+    return Array.isArray(parsed) ? parsed : initialBooks;
+  } catch (error) {
+    // Devolve books caso qualquer coisa dê errado
+    return initialBooks;
+  }
+}
+
 export default function App() {
   // No App, guarde a lista de livros em estado com useState
-  const [books, setBooks] = useState(initialBooks);
+  // ETAPA 6: Troque useState(initialBooks) por useState(loadBooks) — sem parênteses (inicialização preguiçosa)
+  const [books, setBooks] = useState(loadBooks);
+
+  // ETAPA 6: useEffect que salva a lista no localStorage sempre que ela mudar
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+  }, [books]);
 
   // Troque o alerta por uma função que alterna o campo available do livro clicado
   function handleReserve(bookId) {
