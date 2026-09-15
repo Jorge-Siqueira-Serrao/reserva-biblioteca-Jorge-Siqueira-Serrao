@@ -153,3 +153,45 @@ button:hover {
   color: var(--vermelho);
   font-weight: 700;
 }
+
+/* ETAPA 8: Estilo do menu */
+.app-header { 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  gap: 20px; 
+  padding: 16px 4%; 
+  border-bottom: 1px solid #d7dde5; 
+  background: #ffffff; 
+} 
+
+.app-header nav { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 12px; 
+} 
+
+.app-header a { 
+  padding: 8px 10px; 
+  border-radius: 8px; 
+  color: #334155; 
+  text-decoration: none; 
+} 
+
+.app-header a.active { 
+  background: #1f2937; 
+  color: #ffffff; 
+}
+
+/* Força as cores escuras nos títulos e textos para evitar problemas com o Dark Mode */
+h1, h2, p, span {
+  color: #1a2233;
+}
+
+/* Garante que as etiquetas de status continuem com suas cores corretas (verde e vermelho) */
+.badge-ok {
+  color: var(--verde) !important;
+}
+.badge-off {
+  color: var(--vermelho) !important;
+}
